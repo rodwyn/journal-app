@@ -1,12 +1,13 @@
 import { collection, doc, setDoc } from "firebase/firestore/lite";
 import { FirebaseDB} from '../../firebase/config'
-import { addEmptyNote, savingNewNote, setActiveNote } from "./journalSlice";
+import { loadNotes } from "../../helpers";
+import { addEmptyNote, savingNewNote, setActiveNote, setNotes } from "./journalSlice";
 
 export const startNewNote = () => {
   return async(dispatch, getState) => {
     dispatch(savingNewNote());
+    
     const { uid } = getState().auth;
-
     const newNote = {
       title: '',
       body: '',
@@ -17,8 +18,18 @@ export const startNewNote = () => {
     await setDoc(newDoc, newNote);
     newNote.id = newDoc.id;
 
-    // dispatch
     dispatch(addEmptyNote(newNote));
     dispatch(setActiveNote(newNote));
+  }
+};
+
+export const startLoadingNotes = () => {
+  return async( dispatch, getState ) => {
+    const { uid } = getState().auth;
+    if ( !uid ) throw new Error('Not user found.')
+
+    const notes = await loadNotes(uid);
+
+    dispatch( setNotes(notes));
   }
 };
