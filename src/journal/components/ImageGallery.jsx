@@ -1,6 +1,6 @@
 import { ImageList, ImageListItem } from "@mui/material";
 
-export const ImageGallery = ({images}) => {
+export const ImageGallery = ({images = []}) => {
   return (
     <ImageList sx={{ width: '100%' }} cols={4} >
       {images.map((image) => (
