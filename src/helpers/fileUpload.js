@@ -1,5 +1,6 @@
 export const fileUpload = async(file) => {
-  if (!file) throw new Error('Not file available.');
+  // if (!file) throw new Error('Not file available.');
+  if (!file) return null;
 
   const cloudURL = `https://api.cloudinary.com/v1_1/dzk5uwpiv/upload`;
   const formData = new FormData();
@@ -19,6 +20,6 @@ export const fileUpload = async(file) => {
     return cloudResponse.secure_url;
   } catch (error) {
     console.log(error);
-    throw new Error( error.message );
+    return null;
   }
 }
