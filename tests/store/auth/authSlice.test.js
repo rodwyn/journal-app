@@ -24,7 +24,15 @@ describe('Testing authSlice.js', () => {
   test('should run logout without arguments.', () => {
     const state = authSlice.reducer(authenticatedState, logout());
 
-    expect(state).toEqual(notAuthenticatedState);
+    expect(state).toEqual(
+      {
+        status: 'not-authenticated',
+        uid: null,
+        email: null,
+        displayName: null,
+        photoURL: null,
+        errorMessage: undefined
+    });
   });
 
   test('should run logout with arguments.', () => {
